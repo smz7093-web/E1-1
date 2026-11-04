@@ -30,9 +30,11 @@ git --version
 
 ## 수행 체크리스트
 
-- [ ] 터미널 위치·목록·이동·생성·복사·이름 변경·삭제, 파일 읽기·빈 파일 생성
-- [ ] 파일 및 디렉터리 권한 변경 전후 기록
-- [ ] Docker 버전/데몬, 이미지 목록, `hello-world`, Ubuntu 컨테이너 실행
+- [x] Linux 터미널에서 위치 이동, 파일/디렉터리 생성 및 목록 확인 (캡처 포함)
+- [ ] 터미널 복사·이름 변경·삭제 실습 기록
+- [ ] 파일 및 디렉터리 권한 변경 전후 기록 (파일 권한 캡처만 있음)
+- [x] `hello-world`, Ubuntu 컨테이너 실행/재진입 실습 캡처
+- [ ] Docker 버전/데몬, 이미지 목록, 로그·리소스 점검 결과 기록
 - [ ] 컨테이너 목록·로그·리소스 확인
 - [ ] 직접 작성한 Dockerfile 빌드 및 실행
 - [ ] 포트 매핑 접속 증거(주소창/응답 또는 curl)
@@ -40,6 +42,20 @@ git --version
 - [ ] 컨테이너 삭제 전후 Docker 볼륨 데이터 확인
 - [ ] Git 설정 및 GitHub/VS Code 연동 증거
 - [ ] 트러블슈팅 2건 이상
+
+## 실습 캡처
+
+아래 캡처는 `captures/` 폴더에 원본을 보관했습니다.
+
+| 캡처 | 확인되는 내용 |
+|---|---|
+| [mydir_list.jpg](captures/mydir_list.jpg) | Ubuntu 컨테이너 `/temp`에서 `touch`, `mkdir`, `ls -l`로 파일과 디렉터리 생성/목록 확인 |
+| [chmod.jpg](captures/chmod.jpg) | `file.txt`에 `chmod 600`, `chmod 700`을 적용하고 `ls -l`로 권한 확인. `cdmod` 오타 오류도 기록되어 있음 |
+| [docker_run.jpg](captures/docker_run.jpg) | PowerShell에서 `docker run hello-world` 성공 출력 |
+| [exit_exec.jpg](captures/exit_exec.jpg) | 종료된 Ubuntu 컨테이너 시작 후 `docker exec` 재진입, 파일/디렉터리 확인, `exit` 뒤 컨테이너가 실행 중임을 `docker ps`로 확인 |
+| [linux_os_release.jpg](captures/linux_os_release.jpg) | 컨테이너 안에서 `/etc/os-release` 확인; 출력은 Ubuntu 26.04.1 LTS |
+
+현재 캡처만으로는 파일 권한 실습은 확인되지만 디렉터리 권한 변경은 확인되지 않습니다. 복사/이름 변경/삭제, Dockerfile 웹 서버, 포트 접속, 마운트/볼륨, GitHub 연동은 추가 증거가 필요합니다.
 
 ## 터미널 조작 기록
 
@@ -64,6 +80,8 @@ Remove-Item .\practice\renamed.txt
 | 파일·폴더 조작 | 기록 필요 |
 | 파일 내용/빈 파일 | 기록 필요 |
 
+관련 캡처: [mydir_list.jpg](captures/mydir_list.jpg)
+
 ## 권한 실습
 
 Windows ACL과 Linux `chmod`는 표현 방식이 다릅니다. Windows에서 ACL을 조회·변경하거나, WSL/Linux를 사용했다면 `ls -l`, `chmod`, `stat` 결과를 기록합니다.
@@ -79,6 +97,8 @@ Get-Acl .\<폴더경로> | Format-List
 | 파일 | 기록 필요 | 기록 필요 | 기록 필요 |
 | 디렉터리 | 기록 필요 | 기록 필요 | 기록 필요 |
 
+파일 권한 캡처: [chmod.jpg](captures/chmod.jpg). 이 이미지는 파일 `file.txt`의 권한만 보여주며 디렉터리 권한 변경 증거는 아닙니다.
+
 ## Docker 점검 및 기본 운영
 
 `docker --version`과 `docker info`는 사용자가 확인 완료했습니다. 제출 시 실제 핵심 출력도 기록합니다.
@@ -90,6 +110,8 @@ Docker version 29.9.2, build a82e528
 > docker info
 [Server Version, 컨테이너/이미지 수 등 실제 확인 결과 기록]
 ```
+
+`hello-world` 실행 증거: [docker_run.jpg](captures/docker_run.jpg)
 
 ```powershell
 docker images
@@ -120,6 +142,8 @@ docker exec -it e1-ubuntu bash
 ```
 
 결과/관찰: 기록 필요
+
+관련 캡처: [exit_exec.jpg](captures/exit_exec.jpg), [linux_os_release.jpg](captures/linux_os_release.jpg)
 
 ## Dockerfile 웹 서버
 
