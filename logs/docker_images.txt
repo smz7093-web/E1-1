@@ -1,0 +1,6 @@
+$ docker images
+IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
+e1-web:1.0           50c6bd56a4d2       93.6MB         26.3MB   U    
+hello-world:latest   c567b231f656       25.9kB         9.49kB   U    
+nginx:alpine         785835ea65db       94.5MB         27.2MB   U    
+ubuntu:latest        6a06111c3b0a        163MB         45.9MB   U    

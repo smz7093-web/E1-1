@@ -38,9 +38,9 @@ git --version
 - [x] `hello-world`, Ubuntu 컨테이너 실행/재진입 실습 캡처
 - [x] Docker CLI 버전 확인 (`29.9.2`)
 - [x] `docker info` 핵심 출력 요약 기록
-- [ ] 이미지 목록, 로그·리소스 점검 결과 기록
+- [x] 이미지 목록, 로그·리소스 점검 결과 기록
 - [x] 컨테이너 목록 확인 (`docker ps`, 캡처 포함)
-- [ ] 컨테이너 로그 및 리소스 확인 (`docker logs`, `docker stats`)
+- [x] 컨테이너 로그 및 리소스 확인 (`docker logs`, `docker stats`)
 - [x] 직접 작성한 Dockerfile 빌드 및 실행
 - [x] 포트 매핑 접속 증거(브라우저 주소창/응답)
 - [x] 바인드 마운트 호스트 변경 응답 확인
@@ -137,7 +137,13 @@ docker stats --no-stream
 docker run --rm hello-world
 ```
 
-컨테이너 목록 증거는 [exit_exec.jpg](captures/exit_exec.jpg)에 있습니다. `docker images`, `docker logs`, `docker stats` 출력은 추가 기록이 필요합니다.
+컨테이너 목록 증거는 [exit_exec.jpg](captures/exit_exec.jpg)에 있습니다. 출력이 길어 캡처 대신 텍스트로 저장했습니다.
+
+| 명령 | 전체 출력 | 요약 |
+|---|---|---|
+| `docker images` | [logs/docker_images.txt](logs/docker_images.txt) | `e1-web:1.0`(93.6MB), `nginx:alpine`, `ubuntu:latest`, `hello-world:latest` 4개 |
+| `docker logs e1-web` | [logs/docker_logs_e1-web.txt](logs/docker_logs_e1-web.txt) | nginx 1.31.8 시작, `GET /` 200 응답(curl, Chrome), `favicon.ico` 404 |
+| `docker stats --no-stream` | [logs/docker_stats.txt](logs/docker_stats.txt) | `e1-bind`, `e1-web`, `mybox` 실행 중. CPU 0%, 메모리 각 12~16MiB |
 
 ### Ubuntu 컨테이너
 
@@ -259,6 +265,13 @@ git push -u origin main
 - 원인 가설: 닫는 따옴표가 없어 명령이 끝나지 않음
 - 확인: `Ctrl+C`로 입력을 취소한 뒤 정상 명령을 실행함
 - 해결/대안: `echo "practice_text" > note.txt`로 다시 입력하고 `cat note.txt`에서 내용을 확인함. 증거: [cp_rm_mv.jpg](captures/cp_rm_mv.jpg)
+
+### 사례 3
+
+- 문제: `docker logs e1-web`에 `"\x16\x03\x01..." 400` 같은 알아볼 수 없는 요청이 여러 줄 기록됨
+- 원인 가설: `\x16\x03\x01`은 TLS(HTTPS) 핸드셰이크의 시작 바이트입니다. 브라우저가 `https://localhost:8080`으로 접속을 시도했는데, 컨테이너의 nginx는 80번 포트에서 HTTP만 받기 때문에 요청을 해석하지 못함
+- 확인: 같은 시각(07:16:51) 이후 `GET / HTTP/1.1` 200 응답이 Chrome에서 정상 기록됨(07:17:08)
+- 해결/대안: 주소를 `http://localhost:8080`으로 명시해 접속. 증거: [logs/docker_logs_e1-web.txt](logs/docker_logs_e1-web.txt)
 
 ## 핵심 개념
 

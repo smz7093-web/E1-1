@@ -1,0 +1,41 @@
+$ docker logs e1-web
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/04 06:58:56 [notice] 1#1: using the "epoll" event method
+2026/11/04 06:58:56 [notice] 1#1: nginx/1.31.8
+2026/11/04 06:58:56 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0) 
+2026/11/04 06:58:56 [notice] 1#1: OS: Linux 6.18.54.1-microsoft-standard-WSL2
+2026/11/04 06:58:56 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026/11/04 06:58:56 [notice] 1#1: start worker processes
+2026/11/04 06:58:56 [notice] 1#1: start worker process 30
+2026/11/04 06:58:56 [notice] 1#1: start worker process 31
+2026/11/04 06:58:56 [notice] 1#1: start worker process 32
+2026/11/04 06:58:56 [notice] 1#1: start worker process 33
+2026/11/04 06:58:56 [notice] 1#1: start worker process 34
+2026/11/04 06:58:56 [notice] 1#1: start worker process 35
+2026/11/04 06:58:56 [notice] 1#1: start worker process 36
+2026/11/04 06:58:56 [notice] 1#1: start worker process 37
+2026/11/04 06:58:56 [notice] 1#1: start worker process 38
+2026/11/04 06:58:56 [notice] 1#1: start worker process 39
+2026/11/04 06:58:56 [notice] 1#1: start worker process 40
+2026/11/04 06:58:56 [notice] 1#1: start worker process 41
+2026/11/04 06:58:56 [notice] 1#1: start worker process 42
+2026/11/04 06:58:56 [notice] 1#1: start worker process 43
+2026/11/04 06:58:56 [notice] 1#1: start worker process 44
+2026/11/04 06:58:56 [notice] 1#1: start worker process 45
+172.17.0.1 - - [04/Nov/2026:06:59:15 +0000] "GET / HTTP/1.1" 200 27 "-" "curl/8.21.0" "-"
+172.17.0.1 - - [04/Nov/2026:07:16:51 +0000] "\x16\x03\x01\x07x\x01\x00\x07t\x03\x03\x1A\x8F\xBDQ\x08\xF5\x0C\xA7\xBF,^\x99H\xE6qa\xF9\xF5\xF5^\x109\x16JK\xC2\xB7\x13\x07|>\xEC \x06\xC1\xE6\xA9\x5C5\xA7\x83f\xF6\x9C\xC2\x09\x1C\x1A\x09Z\xAF\xA1\xD0\xC3\xD7\xF82\xC3q\xC9\xEF\xBEN \x86\x00 ::\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x01\x00\x07\x0B**\x00\x00\x00" 400 157 "-" "-" "-"
+172.17.0.1 - - [04/Nov/2026:07:16:51 +0000] "\x16\x03\x01\x07\xD8\x01\x00\x07\xD4\x03\x03\x9B=\x8B\xE3\xB2\xA3\x99>\xF8j\xFB\xBCb\x89\xFA\xB0\x8A\x1B\xD1!rr \xF4\xC6\x01\xC2Id\x01|\x10 \xD4\xCFc\xDF\xAA\xAD\xB8\xE2DYB\xC3\xA1\x9E\x93\xD7g\xD4\xE5Ca\xDB\xDEa\xFB\x1A\xCE\x00\xBD<p\xEE\x00 \x8A\x8A\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x01\x00\x07k\xEA\xEA\x00\x00\x00\x17\x00\x00\x00\x05\x00\x05\x01\x00\x00\x00\x00\x00\x1B\x00\x03\x02\x00\x02\x00\x10\x00\x0E\x00\x0C\x02h2\x08http/1.1\xCA4\x00\xBA\x00\xB8\x05\x82\xDF\x13\x02\x01\x05\x82\xDF\x13\x02\x06\x05\x82\xDF\x13\x02" 400 157 "-" "-" "-"
+172.17.0.1 - - [04/Nov/2026:07:16:51 +0000] "\x16\x03\x01\x07\xD8\x01\x00\x07\xD4\x03\x03\x16\xAB$\xA9V\x1F\xE3\x0En;\xAA9IY\xE7\x86;\xE4e\xE4\xBCX\xF9s\x89\x92\xA7\xE7\xE8\x1Ej\x15 \xFCb\x06\x03\xC11:4\xFD\x910\xEDY\x05l\xE6\xD4\x92^U\xC6\x83Bj\xC2\xDE9\xADs\xBD\x90<\x00 ::\x13\x01\x13\x02\x13\x03\xC0+\xC0/\xC0,\xC00\xCC\xA9\xCC\xA8\xC0\x13\xC0\x14\x00\x9C\x00\x9D\x00/\x005\x01\x00\x07k\xAA\xAA\x00\x00\x00\x12\x00\x00\x003\x04\xEF\x04\xED\xDA\xDA\x00\x01\x00\x11\xEC\x04\xC0\xA5\xB8:3'\x8CLi\x13b\x83\x983D\x07\xC9\xE3Y\xAF\xA0x\xFDI%Z\xD6\x5C!Q\x1E\x09\xB7F\xBD\xF6-\xE8Uk[\xB6S\xAB\x84\x15\x83\xE81\x09\xF3Pf\x15\xB1(\x9B\x9D\x901\xBC\x1CXN\x1E#\x8C5\x02\x12B\xF4\x94\xBD+\x15\xA7\xAB3=\xF2\xB5\xE7`x\xFF|\x82@a\x17\xDC,q\xC20\xB6" 400 157 "-" "-" "-"
+172.17.0.1 - - [04/Nov/2026:07:16:51 +0000] "\x16\x03\x01\x07\x98\x01\x00\x07\x94\x03\x03\x80\xC0\xC5XC\xD2j\xF8\xC0!\xD4\xED`\xEC\xED\xB7\xFA\x89\x8F\xBD\x92" 400 157 "-" "-" "-"
+172.17.0.1 - - [04/Nov/2026:07:17:08 +0000] "GET / HTTP/1.1" 200 27 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36" "-"
+2026/11/04 07:17:08 [error] 35#35: *6 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+172.17.0.1 - - [04/Nov/2026:07:17:08 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [04/Nov/2026:07:21:36 +0000] "GET / HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36" "-"

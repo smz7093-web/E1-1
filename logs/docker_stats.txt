@@ -1,0 +1,5 @@
+$ docker stats --no-stream
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O         PIDS
+fd2a9e7561ba   e1-bind   0.00%     16.23MiB / 15.28GiB   0.10%     8.91kB / 6.71kB   5.66MB / 12.3kB   17
+73fa36642188   e1-web    0.00%     15.29MiB / 15.28GiB   0.10%     15.6kB / 7.14kB   315kB / 12.3kB    17
+7a8feae995ad   mybox     0.00%     12.04MiB / 15.28GiB   0.08%     1.58kB / 126B     18MB / 12.3kB     2
