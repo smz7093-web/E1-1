@@ -1,0 +1,18 @@
+$ docker inspect e1-bind --format "{{range .Mounts}}{{.Type}} {{.Source}} -> {{.Destination}} rw={{.RW}}{{end}}"
+bind C:\users\ADMIN\E1-1\site -> /usr/share/nginx/html rw=false
+
+# 1) 수정 전
+$ curl.exe -s http://localhost:8081 | Select-String "<h1>"
+  <h1>호스트 변경 반영 확인</h1>
+
+# 2) 호스트에서 site/index.html 수정 (컨테이너 재시작 없음)
+$ (Get-Content site\index.html) -replace "호스트 변경 반영 확인","바인드 마운트 실시간 반영 테스트" | Set-Content site\index.html
+$ curl.exe -s http://localhost:8081 | Select-String "<h1>"
+  <h1>바인드 마운트 실시간 반영 테스트</h1>
+
+# 3) 원래 내용으로 복구
+$ curl.exe -s http://localhost:8081 | Select-String "<h1>"
+  <h1>호스트 변경 반영 확인</h1>
+
+$ docker ps --filter name=e1-bind --format "{{.Names}} {{.Status}}"
+e1-bind Up 4 days

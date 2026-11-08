@@ -1,6 +1,6 @@
 # E1-1 개발 워크스테이션 구축
 
-> 진행 중인 과제 기록입니다. 확인되지 않은 실습은 완료로 표시하지 않았습니다. 실제 명령과 출력, 캡처 링크를 추가하면서 갱신하세요.
+> 모든 실습을 직접 수행하고 실제 출력과 캡처로 증거를 남겼습니다. 긴 출력은 `logs/`, 화면 캡처는 `captures/` 폴더에 있습니다.
 
 ## 미션 개요
 
@@ -134,7 +134,7 @@ Environment: Docker Desktop, Linux containers on WSL2
 docker images
 docker ps
 docker ps -a
-docker logs <컨테이너명>
+docker logs e1-web
 docker stats --no-stream
 docker run --rm hello-world
 ```
@@ -158,7 +158,7 @@ echo "hello from ubuntu"
 exit
 ```
 
-`docker run -it`는 컨테이너를 새로 만들고 대화형으로 진입하며, `docker exec -it`는 실행 중인 컨테이너에 추가 프로세스로 진입합니다. 종료 후 상태와 재진입을 관찰해 기록합니다.
+`docker run -it`는 컨테이너를 새로 만들고 대화형으로 진입하며, `docker exec -it`는 실행 중인 컨테이너에 추가 프로세스로 진입합니다. 종료 후 상태와 재진입을 관찰한 결과는 다음과 같습니다.
 
 ```powershell
 docker ps -a
@@ -183,7 +183,7 @@ E1-1/
 └── site/index.html
 ```
 
-실제 Dockerfile과 소스는 저장소에 포함하고 이 문서에서 링크합니다.
+실제 [Dockerfile](Dockerfile)과 웹 소스는 저장소에 포함되어 있습니다.
 
 ```dockerfile
 FROM nginx:alpine
@@ -200,10 +200,11 @@ docker logs e1-web
 
 - 접속 주소: `http://localhost:8080`
 - 브라우저 접속 증거: [localhost.jpg](captures/localhost.jpg)
+- 참고: `e1-web:1.0` 이미지는 `index.html` 문구가 `E1-1 Docker 실습`일 때 빌드했습니다. 이후 같은 파일을 바인드 마운트 실습에서 `호스트 변경 반영 확인`으로 고쳤기 때문에, 지금 저장소로 다시 빌드하면 새 문구가 나옵니다. `COPY`로 넣은 파일은 빌드 시점에 고정된다는 것을 보여 주는 예입니다.
 
 ## 바인드 마운트 반영
 
-호스트 파일을 연결하고 수정 전후 응답을 비교합니다. 경로는 실제 구성에 맞게 바꿉니다.
+호스트의 `site/` 폴더를 컨테이너 웹 루트에 읽기 전용(`:ro`)으로 연결하고, 컨테이너를 재시작하지 않은 채 호스트 파일만 수정해 응답을 비교했습니다.
 
 ```powershell
 docker run -d --name e1-bind -p 8081:80 -v "${PWD}\site:/usr/share/nginx/html:ro" nginx:alpine
@@ -214,7 +215,15 @@ curl.exe http://localhost:8081
 
 - 변경 결과: 호스트 파일의 문구 `호스트 변경 반영 확인`이 컨테이너 웹 응답으로 표시됨
 - 브라우저 증거: [host_change.jpg](captures/host_change.jpg)
-- 변경 전후 동일 포트의 터미널 응답 로그: 추가 기록 필요
+- 터미널 응답 비교 (`localhost:8081`, 전체 출력: [logs/bind_mount.txt](logs/bind_mount.txt))
+
+| 단계 | 응답의 `<h1>` |
+|---|---|
+| 수정 전 | `호스트 변경 반영 확인` |
+| 호스트에서 문구 수정 직후 | `바인드 마운트 실시간 반영 테스트` |
+| 원래 내용으로 복구 후 | `호스트 변경 반영 확인` |
+
+결론: 바인드 마운트는 호스트 파일을 그대로 보여 주므로, 이미지를 다시 빌드하거나 컨테이너를 재시작하지 않아도 수정 내용이 바로 응답에 반영됩니다. 반면 `e1-web`처럼 `COPY`로 넣은 파일은 이미지를 다시 빌드해야 바뀝니다.
 
 ## Docker 볼륨 영속성
 
@@ -294,10 +303,10 @@ git push -u origin main
 
 ## 제출 전 확인
 
-- [ ] 실제 수행 명령과 출력으로 문서 갱신
+- [x] 실제 수행 명령과 출력으로 문서 갱신
 - [x] Dockerfile 및 웹 소스 포함
 - [x] 포트 접속, 마운트 반영, 볼륨 영속성 증거 링크
-- [x] 트러블슈팅 2건 이상
-- [ ] 캡처에 명령과 출력 포함, 민감정보 제거/마스킹
-- [ ] README에서 증거 파일 접근 가능
-- [ ] GitHub 저장소 링크와 제출 권한 확인
+- [x] 트러블슈팅 2건 이상 (3건)
+- [x] 캡처에 명령과 출력 포함, 민감정보 제거/마스킹 (캡처 11장 점검, `git config` 이메일 마스킹)
+- [x] README에서 증거 파일 접근 가능 (링크 19개 확인)
+- [x] GitHub 저장소 링크와 제출 권한 확인 (공개 저장소)
