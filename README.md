@@ -46,7 +46,7 @@ git --version
 - [x] 바인드 마운트 호스트 변경 응답 확인
 - [x] 컨테이너 삭제 전후 Docker 볼륨 데이터 확인
 - [x] GitHub 저장소 생성 및 README 푸시
-- [ ] `git config --list` 결과와 VS Code GitHub 로그인/저장소 연동 증거
+- [x] `git config --list` 결과와 VS Code GitHub 로그인/저장소 연동 증거
 - [x] 트러블슈팅 2건 기록
 
 ## 실습 캡처
@@ -64,8 +64,10 @@ git --version
 | [linux_os_release.jpg](captures/linux_os_release.jpg) | 컨테이너 안에서 `/etc/os-release` 확인; 출력은 Ubuntu 26.04.1 LTS |
 | [localhost.jpg](captures/localhost.jpg) | 브라우저 `localhost:8080`에서 Docker 웹 페이지 응답 확인 |
 | [host_change.jpg](captures/host_change.jpg) | 브라우저 `localhost:8081`에서 호스트 수정 후 문구가 반영된 웹 페이지 확인 |
+| [git_config_list.jpg](captures/git_config_list.jpg) | `git config --list` 출력 (이메일 마스킹) |
+| [vscode_github.jpg](captures/vscode_github.jpg) | VS Code에서 GitHub 계정 `smz7093-web` 로그인 상태와 `main` 브랜치 연동 확인 |
 
-볼륨 영속성은 [logs/docker_volume.txt](logs/docker_volume.txt)에 기록했고, VS Code 연동 증거는 아직 없습니다. 바인드 마운트는 변경 후 브라우저 응답 캡처를 확보했으며, 변경 전후 터미널 응답 로그도 추가하면 증거가 더 분명해집니다.
+볼륨 영속성은 [logs/docker_volume.txt](logs/docker_volume.txt)에 기록했습니다. 바인드 마운트는 변경 후 브라우저 응답 캡처를 확보했으며, 변경 전후 터미널 응답 로그도 추가하면 증거가 더 분명해집니다.
 
 ## 터미널 조작 기록
 
@@ -251,8 +253,12 @@ git push -u origin main
 ```
 
 - 저장소: [smz7093-web/E1-1](https://github.com/smz7093-web/E1-1) (README 푸시 완료)
-- VS Code GitHub 로그인/저장소 연동 캡처: 추가 필요
-- 민감정보 점검: 완료 여부 기록(토큰·비밀번호는 문서화하지 않음)
+- `git config --list` 결과: [git_config_list.jpg](captures/git_config_list.jpg)
+  - `user.name`, `user.email`(캡처에서 마스킹), `init.defaultbranch=main`, `credential.helper=manager` 설정 확인
+  - `init.defaultbranch`가 두 번 나오는 것은 Git for Windows 시스템 설정(`master`) 뒤에 사용자 전역 설정(`main`)이 이어서 읽히기 때문이며, 나중에 읽힌 `main`이 적용됨
+- VS Code GitHub 로그인/저장소 연동: [vscode_github.jpg](captures/vscode_github.jpg)
+  - 계정 메뉴에 `smz7093-web (GitHub)` 로그인 상태 표시, 상태 표시줄에 `main` 브랜치와 동기화 아이콘이 보여 저장소가 연결되어 있음을 확인
+- 민감정보 점검: 캡처 속 이메일은 가렸고, 토큰·비밀번호는 문서에 넣지 않음. 개인 메모 파일은 `.gitignore`로 제외
 
 ## 트러블슈팅
 
