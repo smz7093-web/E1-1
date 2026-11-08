@@ -14,7 +14,7 @@
 | OS | Windows 10 Home (버전 2009; 빌드 번호 추가 확인 필요) |
 | 쉘 | PowerShell 7.6.9 |
 | Docker CLI | Docker version 29.9.2, build a82e528 |
-| Docker 데몬 | `docker info` 확인 완료(사용자 확인); 제출용 핵심 출력은 기록 필요 |
+| Docker 데몬 | Docker Server 29.9.2; 컨테이너 5개(실행 3, 중지 2), 이미지 4개 |
 | Git | git version 2.56.0.windows.1 |
 | GitHub | `https://github.com/smz7093-web/E1-1` |
 
@@ -35,7 +35,8 @@ git --version
 - [x] 파일 및 디렉터리 권한 변경 전후 캡처
 - [x] `hello-world`, Ubuntu 컨테이너 실행/재진입 실습 캡처
 - [x] Docker CLI 버전 확인 (`29.9.2`)
-- [ ] `docker info` 핵심 출력, 이미지 목록, 로그·리소스 점검 결과 기록
+- [x] `docker info` 핵심 출력 요약 기록
+- [ ] 이미지 목록, 로그·리소스 점검 결과 기록
 - [x] 컨테이너 목록 확인 (`docker ps`, 캡처 포함)
 - [ ] 컨테이너 로그 및 리소스 확인 (`docker logs`, `docker stats`)
 - [x] 직접 작성한 Dockerfile 빌드 및 실행
@@ -108,14 +109,18 @@ Get-Acl .\<폴더경로> | Format-List
 
 ## Docker 점검 및 기본 운영
 
-`docker --version`과 `docker info`는 사용자가 확인 완료했습니다. 제출 시 실제 핵심 출력도 기록합니다.
+`docker --version`과 `docker info` 확인 결과의 핵심 항목을 요약했습니다. 상세 정보에서 고유 ID, 프록시 및 내부 레지스트리 주소는 제외했습니다. [docker_info.txt](docker_info.txt)
 
 ```text
 > docker --version
 Docker version 29.9.2, build a82e528
 
 > docker info
-[Server Version, 컨테이너/이미지 수 등 실제 확인 결과 기록]
+Client: 29.9.2
+Server: 29.9.2
+Containers: 5 (Running: 3, Stopped: 2)
+Images: 4
+Environment: Docker Desktop, Linux containers on WSL2
 ```
 
 `hello-world` 실행 증거: [docker_run.jpg](captures/docker_run.jpg)
@@ -129,7 +134,7 @@ docker stats --no-stream
 docker run --rm hello-world
 ```
 
-컨테이너 목록 증거는 [exit_exec.jpg](captures/exit_exec.jpg)에 있습니다. `docker images`, `docker logs`, `docker stats` 출력과 Docker 데몬의 `docker info` 핵심 결과는 추가 기록이 필요합니다.
+컨테이너 목록 증거는 [exit_exec.jpg](captures/exit_exec.jpg)에 있습니다. `docker images`, `docker logs`, `docker stats` 출력은 추가 기록이 필요합니다.
 
 ### Ubuntu 컨테이너
 

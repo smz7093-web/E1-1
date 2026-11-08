@@ -1,0 +1,8 @@
+Docker info 요약 (docker info)
+
+Docker Client: 29.9.2
+Docker Server: 29.9.2
+Context: desktop-linux
+Containers: 5 (Running: 3, Paused: 0, Stopped: 2)
+Images: 4
+Environment: Docker Desktop, Linux containers on WSL2
