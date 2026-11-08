@@ -1,0 +1,3 @@
+# 개인 메모(SSH 키, 설치 명령 등) - 저장소에 올리지 않음
+winget install --id Docker.DockerDe.txt
+*.local.txt

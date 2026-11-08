@@ -11,16 +11,18 @@
 | 항목 | 확인값 |
 |---|---|
 | 작업 폴더 | `C:\Users\ADMIN\E1-1` |
-| OS | Windows 10 Home (버전 2009; 빌드 번호 추가 확인 필요) |
+| OS | Windows 11 Home 25H2 (OS 빌드 26200.9711) |
 | 쉘 | PowerShell 7.6.9 |
 | Docker CLI | Docker version 29.9.2, build a82e528 |
 | Docker 데몬 | Docker Server 29.9.2; 컨테이너 5개(실행 3, 중지 2), 이미지 4개 |
 | Git | git version 2.56.0.windows.1 |
 | GitHub | `https://github.com/smz7093-web/E1-1` |
 
+> 참고: 빌드 26200은 Windows 11입니다. `Get-ComputerInfo`와 레지스트리 `ProductName`은 호환성 때문에 "Windows 10"으로 표시되므로 빌드 번호(`winver`)로 확인했습니다.
+
 ```powershell
 $PSVersionTable.PSVersion
-Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' | Select-Object DisplayVersion, CurrentBuild, UBR
 docker --version
 docker info
 git --version
@@ -67,19 +69,18 @@ git --version
 
 ## 터미널 조작 기록
 
-아래 예시를 실제 수행한 명령과 출력으로 대체합니다.
+터미널 실습은 Ubuntu 컨테이너의 Bash에서 수행했습니다. 수행한 명령의 흐름은 다음과 같습니다(실제 출력은 캡처 참고).
 
-```powershell
-Get-Location
-Get-ChildItem -Force
-Set-Location <작업할_경로>
-New-Item -ItemType Directory -Name practice
-New-Item -ItemType File -Path .\practice\note.txt
-Set-Content .\practice\note.txt '실습 내용'
-Get-Content .\practice\note.txt
-Copy-Item .\practice\note.txt .\practice\copy.txt
-Move-Item .\practice\copy.txt .\practice\renamed.txt
-Remove-Item .\practice\renamed.txt
+```bash
+pwd
+mkdir -p /tmp/e1-practice && cd /tmp/e1-practice
+touch empty.txt
+echo "practice_text" > note.txt
+cat note.txt
+cp note.txt copy.txt
+mv copy.txt renamed.txt
+rm renamed.txt
+ls -l
 ```
 
 | 목적 | 명령 및 실제 출력 |
@@ -92,12 +93,14 @@ Remove-Item .\practice\renamed.txt
 
 ## 권한 실습
 
-Windows ACL과 Linux `chmod`는 표현 방식이 다릅니다. Windows에서 ACL을 조회·변경하거나, WSL/Linux를 사용했다면 `ls -l`, `chmod`, `stat` 결과를 기록합니다.
+권한 실습은 Ubuntu 컨테이너에서 Linux `chmod`로 수행했습니다. (Windows ACL은 별도 모델이라 다루지 않았습니다.)
 
-```powershell
-Get-Acl .\<파일경로> | Format-List
-Get-Acl .\<폴더경로> | Format-List
-# 실제 변경 명령과 변경 후 조회 기록
+```bash
+ls -l file.txt
+chmod 600 file.txt && ls -l file.txt
+chmod 700 file.txt && ls -l file.txt
+ls -ld .
+chmod 700 . && ls -ld .
 ```
 
 | 대상 | 변경 전 | 수행한 변경 | 변경 후 |
@@ -139,7 +142,7 @@ docker run --rm hello-world
 ### Ubuntu 컨테이너
 
 ```powershell
-docker run -it --name e1-ubuntu ubuntu bash
+docker run -it --name mybox ubuntu bash
 # 컨테이너 안에서
 pwd
 ls -la
@@ -151,8 +154,8 @@ exit
 
 ```powershell
 docker ps -a
-docker start e1-ubuntu
-docker exec -it e1-ubuntu bash
+docker start mybox
+docker exec -it mybox bash
 ```
 
 관찰: `docker ps -a`에서 `mybox`가 종료된 상태인 것을 확인하고 `docker start mybox`로 재시작했습니다. `docker exec -it mybox bash`로 진입해 명령을 실행한 뒤 `exit`해도 원래 컨테이너는 실행 중이어서 `docker ps`에 표시됐습니다.
@@ -269,9 +272,9 @@ git push -u origin main
 ## 제출 전 확인
 
 - [ ] 실제 수행 명령과 출력으로 문서 갱신
-- [ ] Dockerfile 및 웹 소스 포함
+- [x] Dockerfile 및 웹 소스 포함
 - [ ] 포트 접속, 마운트 반영, 볼륨 영속성 증거 링크
-- [ ] 트러블슈팅 2건 이상
+- [x] 트러블슈팅 2건 이상
 - [ ] 캡처에 명령과 출력 포함, 민감정보 제거/마스킹
 - [ ] README에서 증거 파일 접근 가능
 - [ ] GitHub 저장소 링크와 제출 권한 확인
