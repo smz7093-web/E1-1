@@ -11,10 +11,10 @@
 | 항목 | 확인값 |
 |---|---|
 | 작업 폴더 | `C:\Users\ADMIN\E1-1` |
-| OS | Windows (세부 버전 기록 필요) |
+| OS | Windows 10 Home (버전 2009; 빌드 번호 추가 확인 필요) |
 | 쉘 | PowerShell 7.6.9 |
 | Docker CLI | Docker version 29.9.2, build a82e528 |
-| Docker 데몬 | `docker info` 확인 완료(사용자 확인); 출력 기록 필요 |
+| Docker 데몬 | `docker info` 확인 완료(사용자 확인); 제출용 핵심 출력은 기록 필요 |
 | Git | git version 2.56.0.windows.1 |
 | GitHub | `https://github.com/smz7093-web/E1-1` |
 
@@ -31,17 +31,20 @@ git --version
 ## 수행 체크리스트
 
 - [x] Linux 터미널에서 위치 이동, 파일/디렉터리 생성 및 목록 확인 (캡처 포함)
-- [ ] 터미널 복사·이름 변경·삭제 실습 기록
-- [ ] 파일 및 디렉터리 권한 변경 전후 기록 (파일 권한 캡처만 있음)
+- [x] 터미널 파일 내용/빈 파일, 복사·이름 변경·삭제 실습 캡처
+- [x] 파일 및 디렉터리 권한 변경 전후 캡처
 - [x] `hello-world`, Ubuntu 컨테이너 실행/재진입 실습 캡처
-- [ ] Docker 버전/데몬, 이미지 목록, 로그·리소스 점검 결과 기록
-- [ ] 컨테이너 목록·로그·리소스 확인
-- [ ] 직접 작성한 Dockerfile 빌드 및 실행
-- [ ] 포트 매핑 접속 증거(주소창/응답 또는 curl)
-- [ ] 바인드 마운트 호스트 변경 반영
+- [x] Docker CLI 버전 확인 (`29.9.2`)
+- [ ] `docker info` 핵심 출력, 이미지 목록, 로그·리소스 점검 결과 기록
+- [x] 컨테이너 목록 확인 (`docker ps`, 캡처 포함)
+- [ ] 컨테이너 로그 및 리소스 확인 (`docker logs`, `docker stats`)
+- [x] 직접 작성한 Dockerfile 빌드 및 실행
+- [x] 포트 매핑 접속 증거(브라우저 주소창/응답)
+- [x] 바인드 마운트 호스트 변경 응답 확인
 - [ ] 컨테이너 삭제 전후 Docker 볼륨 데이터 확인
-- [ ] Git 설정 및 GitHub/VS Code 연동 증거
-- [ ] 트러블슈팅 2건 이상
+- [x] GitHub 저장소 생성 및 README 푸시
+- [ ] `git config --list` 결과와 VS Code GitHub 로그인/저장소 연동 증거
+- [x] 트러블슈팅 2건 기록
 
 ## 실습 캡처
 
@@ -51,11 +54,15 @@ git --version
 |---|---|
 | [mydir_list.jpg](captures/mydir_list.jpg) | Ubuntu 컨테이너 `/temp`에서 `touch`, `mkdir`, `ls -l`로 파일과 디렉터리 생성/목록 확인 |
 | [chmod.jpg](captures/chmod.jpg) | `file.txt`에 `chmod 600`, `chmod 700`을 적용하고 `ls -l`로 권한 확인. `cdmod` 오타 오류도 기록되어 있음 |
+| [cp_rm_mv.jpg](captures/cp_rm_mv.jpg) | `/tmp/e1-practice`에서 빈 파일 생성, 파일 내용 확인, `cp`, `mv` 결과 확인 |
+| [cp_rm_mv_chmod.jpg](captures/cp_rm_mv_chmod.jpg) | `rm` 및 삭제 후 목록 확인, 디렉터리에 `chmod 700` 적용 후 `ls -ld`로 확인 |
 | [docker_run.jpg](captures/docker_run.jpg) | PowerShell에서 `docker run hello-world` 성공 출력 |
 | [exit_exec.jpg](captures/exit_exec.jpg) | 종료된 Ubuntu 컨테이너 시작 후 `docker exec` 재진입, 파일/디렉터리 확인, `exit` 뒤 컨테이너가 실행 중임을 `docker ps`로 확인 |
 | [linux_os_release.jpg](captures/linux_os_release.jpg) | 컨테이너 안에서 `/etc/os-release` 확인; 출력은 Ubuntu 26.04.1 LTS |
+| [localhost.jpg](captures/localhost.jpg) | 브라우저 `localhost:8080`에서 Docker 웹 페이지 응답 확인 |
+| [host_change.jpg](captures/host_change.jpg) | 브라우저 `localhost:8081`에서 호스트 수정 후 문구가 반영된 웹 페이지 확인 |
 
-현재 캡처만으로는 파일 권한 실습은 확인되지만 디렉터리 권한 변경은 확인되지 않습니다. 복사/이름 변경/삭제, Dockerfile 웹 서버, 포트 접속, 마운트/볼륨, GitHub 연동은 추가 증거가 필요합니다.
+볼륨 영속성과 VS Code 연동 증거는 아직 없습니다. 바인드 마운트는 변경 후 브라우저 응답 캡처를 확보했으며, 변경 전후 터미널 응답 로그도 추가하면 증거가 더 분명해집니다.
 
 ## 터미널 조작 기록
 
@@ -76,9 +83,9 @@ Remove-Item .\practice\renamed.txt
 
 | 목적 | 명령 및 실제 출력 |
 |---|---|
-| 위치/목록 | 기록 필요 |
-| 파일·폴더 조작 | 기록 필요 |
-| 파일 내용/빈 파일 | 기록 필요 |
+| 위치/목록 | [mydir_list.jpg](captures/mydir_list.jpg), [cp_rm_mv.jpg](captures/cp_rm_mv.jpg) |
+| 파일·폴더 조작 | [cp_rm_mv.jpg](captures/cp_rm_mv.jpg), [cp_rm_mv_chmod.jpg](captures/cp_rm_mv_chmod.jpg) |
+| 파일 내용/빈 파일 | `cat note.txt` 출력 및 0 byte `empty.txt`가 캡처에 보임 |
 
 관련 캡처: [mydir_list.jpg](captures/mydir_list.jpg)
 
@@ -94,10 +101,10 @@ Get-Acl .\<폴더경로> | Format-List
 
 | 대상 | 변경 전 | 수행한 변경 | 변경 후 |
 |---|---|---|---|
-| 파일 | 기록 필요 | 기록 필요 | 기록 필요 |
-| 디렉터리 | 기록 필요 | 기록 필요 | 기록 필요 |
+| 파일 `file.txt` | `-rw-r--r--` | `chmod 600`, 이어 `chmod 700` | 각각 `-rw-------`, `-rwx------` |
+| 디렉터리 `e1-practice` | `drwxr-xr-x` | `chmod 700 .` | `drwx------` |
 
-파일 권한 캡처: [chmod.jpg](captures/chmod.jpg). 이 이미지는 파일 `file.txt`의 권한만 보여주며 디렉터리 권한 변경 증거는 아닙니다.
+파일 권한 캡처: [chmod.jpg](captures/chmod.jpg). 파일 및 디렉터리 관리 결과: [cp_rm_mv_chmod.jpg](captures/cp_rm_mv_chmod.jpg).
 
 ## Docker 점검 및 기본 운영
 
@@ -122,6 +129,8 @@ docker stats --no-stream
 docker run --rm hello-world
 ```
 
+컨테이너 목록 증거는 [exit_exec.jpg](captures/exit_exec.jpg)에 있습니다. `docker images`, `docker logs`, `docker stats` 출력과 Docker 데몬의 `docker info` 핵심 결과는 추가 기록이 필요합니다.
+
 ### Ubuntu 컨테이너
 
 ```powershell
@@ -141,15 +150,15 @@ docker start e1-ubuntu
 docker exec -it e1-ubuntu bash
 ```
 
-결과/관찰: 기록 필요
+관찰: `docker ps -a`에서 `mybox`가 종료된 상태인 것을 확인하고 `docker start mybox`로 재시작했습니다. `docker exec -it mybox bash`로 진입해 명령을 실행한 뒤 `exit`해도 원래 컨테이너는 실행 중이어서 `docker ps`에 표시됐습니다.
 
 관련 캡처: [exit_exec.jpg](captures/exit_exec.jpg), [linux_os_release.jpg](captures/linux_os_release.jpg)
 
 ## Dockerfile 웹 서버
 
-- 베이스 이미지 및 선택 이유: 기록 필요(예: `nginx:alpine`)
-- 커스텀 내용과 목적: 기록 필요
-- 웹 소스 위치: 기록 필요
+- 베이스 이미지: `nginx:alpine` (경량 NGINX 웹 서버)
+- 커스텀 내용: 직접 만든 정적 HTML을 이미지의 기본 웹 루트로 복사
+- 웹 소스: [`site/index.html`](site/index.html)
 
 ```text
 E1-1/
@@ -161,7 +170,8 @@ E1-1/
 실제 Dockerfile과 소스는 저장소에 포함하고 이 문서에서 링크합니다.
 
 ```dockerfile
-# 실제 Dockerfile 내용 또는 파일 링크
+FROM nginx:alpine
+COPY site/ /usr/share/nginx/html/
 ```
 
 ```powershell
@@ -172,9 +182,8 @@ curl.exe http://localhost:8080
 docker logs e1-web
 ```
 
-- 접속 주소: `http://localhost:8080` (실제 포트로 수정)
-- 응답: 기록 필요
-- 브라우저 주소창과 응답 화면 캡처: `docs/images/`에 저장 후 링크
+- 접속 주소: `http://localhost:8080`
+- 브라우저 접속 증거: [localhost.jpg](captures/localhost.jpg)
 
 ## 바인드 마운트 반영
 
@@ -187,9 +196,9 @@ curl.exe http://localhost:8081
 curl.exe http://localhost:8081
 ```
 
-- 변경 전 결과: 기록 필요
-- 호스트 변경 내용: 기록 필요
-- 변경 후 결과: 기록 필요
+- 변경 결과: 호스트 파일의 문구 `호스트 변경 반영 확인`이 컨테이너 웹 응답으로 표시됨
+- 브라우저 증거: [host_change.jpg](captures/host_change.jpg)
+- 변경 전후 동일 포트의 터미널 응답 로그: 추가 기록 필요
 
 ## Docker 볼륨 영속성
 
@@ -223,25 +232,25 @@ git remote add origin https://github.com/smz7093-web/E1-1.git
 git push -u origin main
 ```
 
-- 저장소: [smz7093-web/E1-1](https://github.com/smz7093-web/E1-1)
-- VS Code GitHub 로그인/저장소 연동 캡처: 완료 후 링크 추가
+- 저장소: [smz7093-web/E1-1](https://github.com/smz7093-web/E1-1) (README 푸시 완료)
+- VS Code GitHub 로그인/저장소 연동 캡처: 추가 필요
 - 민감정보 점검: 완료 여부 기록(토큰·비밀번호는 문서화하지 않음)
 
 ## 트러블슈팅
 
 ### 사례 1
 
-- 문제: 기록 필요
-- 원인 가설: 기록 필요
-- 확인 명령 및 결과: 기록 필요
-- 해결/대안: 기록 필요
+- 문제: `cdmod` 실행 시 `command not found` 오류
+- 원인 가설: 권한 변경 명령 `chmod`의 철자를 잘못 입력함
+- 확인: 오류 메시지를 확인하고 올바른 명령 `chmod 700 file.txt`를 실행한 뒤 `ls -l`로 권한 변경을 확인함
+- 해결/대안: `chmod`로 다시 실행. 증거: [chmod.jpg](captures/chmod.jpg)
 
 ### 사례 2
 
-- 문제: 기록 필요
-- 원인 가설: 기록 필요
-- 확인 명령 및 결과: 기록 필요
-- 해결/대안: 기록 필요
+- 문제: 따옴표만 입력해 Bash가 다음 입력을 기다리는 `>` 프롬프트로 바뀜
+- 원인 가설: 닫는 따옴표가 없어 명령이 끝나지 않음
+- 확인: `Ctrl+C`로 입력을 취소한 뒤 정상 명령을 실행함
+- 해결/대안: `echo "practice_text" > note.txt`로 다시 입력하고 `cat note.txt`에서 내용을 확인함. 증거: [cp_rm_mv.jpg](captures/cp_rm_mv.jpg)
 
 ## 핵심 개념
 
