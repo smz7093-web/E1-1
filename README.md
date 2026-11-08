@@ -44,7 +44,7 @@ git --version
 - [x] 직접 작성한 Dockerfile 빌드 및 실행
 - [x] 포트 매핑 접속 증거(브라우저 주소창/응답)
 - [x] 바인드 마운트 호스트 변경 응답 확인
-- [ ] 컨테이너 삭제 전후 Docker 볼륨 데이터 확인
+- [x] 컨테이너 삭제 전후 Docker 볼륨 데이터 확인
 - [x] GitHub 저장소 생성 및 README 푸시
 - [ ] `git config --list` 결과와 VS Code GitHub 로그인/저장소 연동 증거
 - [x] 트러블슈팅 2건 기록
@@ -65,7 +65,7 @@ git --version
 | [localhost.jpg](captures/localhost.jpg) | 브라우저 `localhost:8080`에서 Docker 웹 페이지 응답 확인 |
 | [host_change.jpg](captures/host_change.jpg) | 브라우저 `localhost:8081`에서 호스트 수정 후 문구가 반영된 웹 페이지 확인 |
 
-볼륨 영속성과 VS Code 연동 증거는 아직 없습니다. 바인드 마운트는 변경 후 브라우저 응답 캡처를 확보했으며, 변경 전후 터미널 응답 로그도 추가하면 증거가 더 분명해집니다.
+볼륨 영속성은 [logs/docker_volume.txt](logs/docker_volume.txt)에 기록했고, VS Code 연동 증거는 아직 없습니다. 바인드 마운트는 변경 후 브라우저 응답 캡처를 확보했으며, 변경 전후 터미널 응답 로그도 추가하면 증거가 더 분명해집니다.
 
 ## 터미널 조작 기록
 
@@ -227,9 +227,13 @@ docker volume inspect e1-data
 docker rm -f e1-vol-check
 ```
 
-- 삭제 전 데이터: 기록 필요
-- 삭제 후 새 컨테이너에서 읽은 값: 기록 필요
-- 볼륨 검사 결과: 기록 필요
+- 삭제 전 데이터: `e1-vol` 컨테이너에서 `/data/check.txt`에 `persistent-data`를 쓰고 확인
+- 컨테이너 삭제: `docker rm -f e1-vol` 뒤 `docker ps -a --filter name=e1-vol` 결과가 비어 있음
+- 삭제 후 새 컨테이너에서 읽은 값: `e1-vol-check`에서 `cat /data/check.txt` → `persistent-data` (데이터 유지 확인)
+- 볼륨 검사 결과: Driver `local`, Mountpoint `/var/lib/docker/volumes/e1-data/_data`, Scope `local`
+- 전체 출력: [logs/docker_volume.txt](logs/docker_volume.txt)
+
+결론: 컨테이너를 삭제해도 Docker 볼륨에 저장된 데이터는 남아 있으며, 같은 볼륨을 연결한 새 컨테이너에서 다시 읽을 수 있습니다.
 
 ## Git 및 GitHub
 
@@ -286,7 +290,7 @@ git push -u origin main
 
 - [ ] 실제 수행 명령과 출력으로 문서 갱신
 - [x] Dockerfile 및 웹 소스 포함
-- [ ] 포트 접속, 마운트 반영, 볼륨 영속성 증거 링크
+- [x] 포트 접속, 마운트 반영, 볼륨 영속성 증거 링크
 - [x] 트러블슈팅 2건 이상
 - [ ] 캡처에 명령과 출력 포함, 민감정보 제거/마스킹
 - [ ] README에서 증거 파일 접근 가능

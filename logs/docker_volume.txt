@@ -1,0 +1,37 @@
+$ docker volume create e1-data
+e1-data
+
+$ docker run -d --name e1-vol -v e1-data:/data ubuntu sleep infinity
+2cc8319d1bb711864fb7f19d95c3e3b95947112d6bc456281e221c74c13b6904
+
+$ docker exec e1-vol bash -lc "echo persistent-data > /data/check.txt && cat /data/check.txt"
+persistent-data
+
+$ docker rm -f e1-vol
+e1-vol
+
+$ docker ps -a --filter name=e1-vol
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+$ docker run -d --name e1-vol-check -v e1-data:/data ubuntu sleep infinity
+a2795300146b39d903f50769a398070673a1e22d1c4ba56ad50a0fb7d40896c6
+
+$ docker exec e1-vol-check cat /data/check.txt
+persistent-data
+
+$ docker volume inspect e1-data
+[
+    {
+        "CreatedAt": "2026-11-08T12:19:10Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/e1-data/_data",
+        "Name": "e1-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+
+$ docker rm -f e1-vol-check
+e1-vol-check
+
