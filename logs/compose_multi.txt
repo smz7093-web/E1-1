@@ -1,0 +1,78 @@
+## 1) 기본 설정(.env: HOST_PORT=8083, NGINX_PORT=8080, APP_MODE=development)
+$ docker compose up -d
+ Network e1-multi_e1-net Creating 
+ Network e1-multi_e1-net Created 
+ Container e1-multi-web-1 Creating 
+ Container e1-multi-web-1 Created 
+ Container e1-multi-checker-1 Creating 
+ Container e1-multi-checker-1 Created 
+ Container e1-multi-web-1 Starting 
+ Container e1-multi-web-1 Started 
+ Container e1-multi-checker-1 Starting 
+ Container e1-multi-checker-1 Started 
+
+$ docker compose ps
+NAME                 IMAGE          COMMAND                   SERVICE   CREATED         STATUS         PORTS
+e1-multi-checker-1   nginx:alpine   "/docker-entrypoint.…"   checker   5 seconds ago   Up 4 seconds   80/tcp
+e1-multi-web-1       nginx:alpine   "/docker-entrypoint.…"   web       5 seconds ago   Up 4 seconds   0.0.0.0:8083->8080/tcp, [::]:8083->8080/tcp
+
+## 컨테이너 간 통신: checker -> 서비스 이름 web
+$ docker compose exec checker nslookup web
+Name:	web
+Address: 172.18.0.2
+$ docker compose exec checker wget -qO- http://web:8080/mode
+mode=development port=8080
+
+## 호스트에서 접속
+$ curl.exe -i http://localhost:8083/mode
+HTTP/1.1 200 OK
+X-App-Mode: development
+mode=development port=8080
+
+$ docker compose logs checker
+checker-1  | [checker] 11:54:32 mode=development port=8080
+checker-1  | [checker] 11:54:42 mode=development port=8080
+
+$ docker compose logs --tail 3 web
+web-1  | 172.18.0.3 - - [10/Nov/2026:11:54:38 +0000] "GET /mode HTTP/1.1" 200 27 "-" "Wget" "-"
+web-1  | 172.18.0.1 - - [10/Nov/2026:11:54:38 +0000] "GET /mode HTTP/1.1" 200 27 "-" "curl/8.22.0" "-"
+web-1  | 172.18.0.3 - - [10/Nov/2026:11:54:42 +0000] "GET /mode HTTP/1.1" 200 27 "-" "Wget" "-"
+
+## 2) 코드 수정 없이 환경 변수만 변경 (셸 변수가 .env보다 우선)
+$ NGINX_PORT=9090 APP_MODE=production docker compose up -d
+ Container e1-multi-web-1 Recreate 
+ Container e1-multi-web-1 Recreated 
+ Container e1-multi-checker-1 Recreate 
+ Container e1-multi-checker-1 Recreated 
+ Container e1-multi-web-1 Starting 
+ Container e1-multi-web-1 Started 
+ Container e1-multi-checker-1 Starting 
+ Container e1-multi-checker-1 Started 
+
+$ docker compose ps
+NAME                 IMAGE          COMMAND                   SERVICE   CREATED          STATUS         PORTS
+e1-multi-checker-1   nginx:alpine   "/docker-entrypoint.…"   checker   9 seconds ago    Up 4 seconds   80/tcp
+e1-multi-web-1       nginx:alpine   "/docker-entrypoint.…"   web       10 seconds ago   Up 4 seconds   0.0.0.0:8083->9090/tcp, [::]:8083->9090/tcp
+
+$ curl.exe -i http://localhost:8083/mode
+HTTP/1.1 200 OK
+X-App-Mode: production
+mode=production port=9090
+$ docker compose exec checker wget -qO- http://web:9090/mode
+mode=production port=9090
+
+## 3) 종료
+$ docker compose down
+ Container e1-multi-checker-1 Stopping 
+ Container e1-multi-checker-1 Stopped 
+ Container e1-multi-checker-1 Removing 
+ Container e1-multi-checker-1 Removed 
+ Container e1-multi-web-1 Stopping 
+ Container e1-multi-web-1 Stopped 
+ Container e1-multi-web-1 Removing 
+ Container e1-multi-web-1 Removed 
+ Network e1-multi_e1-net Removing 
+ Network e1-multi_e1-net Removed 
+
+$ docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS

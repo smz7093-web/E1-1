@@ -1,0 +1,43 @@
+$ docker compose up -d --build
+ Network e1-single_default Creating 
+ Network e1-single_default Created 
+ Container e1-compose-web Creating 
+ Container e1-compose-web Created 
+ Container e1-compose-web Starting 
+ Container e1-compose-web Started 
+
+$ docker compose ps
+NAME             IMAGE            COMMAND                   SERVICE   CREATED         STATUS        PORTS
+e1-compose-web   e1-web:compose   "/docker-entrypoint.…"   web       2 seconds ago   Up 1 second   0.0.0.0:8082->80/tcp, [::]:8082->80/tcp
+
+$ curl.exe http://localhost:8082
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>E1-1 Docker 웹 서버</title>
+</head>
+<body>
+  <h1>호스트 변경 반영 확인</h1>
+</body>
+</html>
+
+$ docker compose logs web
+e1-compose-web  | 2026/11/10 11:54:13 [notice] 1#1: start worker process 41
+e1-compose-web  | 2026/11/10 11:54:13 [notice] 1#1: start worker process 42
+e1-compose-web  | 2026/11/10 11:54:13 [notice] 1#1: start worker process 43
+e1-compose-web  | 2026/11/10 11:54:13 [notice] 1#1: start worker process 44
+e1-compose-web  | 2026/11/10 11:54:13 [notice] 1#1: start worker process 45
+e1-compose-web  | 172.18.0.1 - - [10/Nov/2026:11:54:17 +0000] "GET / HTTP/1.1" 200 249 "-" "curl/8.22.0" "-"
+
+$ docker compose down
+ Container e1-compose-web Stopping 
+ Container e1-compose-web Stopped 
+ Container e1-compose-web Removing 
+ Container e1-compose-web Removed 
+ Network e1-single_default Removing 
+ Network e1-single_default Removed 
+
+$ docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS

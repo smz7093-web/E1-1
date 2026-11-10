@@ -1,0 +1,14 @@
+name: e1-single
+# 단일 서비스: 미션의 Dockerfile 이미지를 Compose로 실행
+# 아래 docker 명령을 파일로 문서화한 것과 같다.
+#   docker build -t e1-web:compose ../..
+#   docker run -d --name e1-compose-web -p 8082:80 e1-web:compose
+services:
+  web:
+    build:
+      context: ../..          # 저장소 루트의 Dockerfile 사용
+    image: e1-web:compose
+    container_name: e1-compose-web
+    ports:
+      - "8082:80"
+    restart: unless-stopped

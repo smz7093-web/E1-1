@@ -1,0 +1,29 @@
+name: e1-multi
+# 멀티 컨테이너: 웹 서버(web) + 보조 서비스(checker)
+# - web: nginx, 포트와 모드를 환경 변수로 주입 (nginx/default.conf.template)
+# - checker: 같은 네트워크에서 서비스 이름 "web"으로 접속해 응답을 로그로 남김
+services:
+  web:
+    image: nginx:alpine
+    environment:
+      NGINX_PORT: ${NGINX_PORT:-80}
+      APP_MODE: ${APP_MODE:-development}
+    ports:
+      - "${HOST_PORT:-8083}:${NGINX_PORT:-80}"
+    volumes:
+      - ../../site:/usr/share/nginx/html:ro
+      - ./nginx/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    networks: [e1-net]
+
+  checker:
+    image: nginx:alpine          # 이미 받은 이미지 재사용 (busybox wget 포함)
+    depends_on: [web]
+    command: >
+      sh -c 'while true; do
+        echo "[checker] $$(date +%T) $$(wget -qO- http://web:${NGINX_PORT:-80}/mode)";
+        sleep 10;
+      done'
+    networks: [e1-net]
+
+networks:
+  e1-net:

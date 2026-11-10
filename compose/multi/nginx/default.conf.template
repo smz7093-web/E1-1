@@ -1,0 +1,15 @@
+# nginx 이미지가 시작할 때 envsubst로 ${NGINX_PORT}, ${APP_MODE}를 실제 값으로 바꾼다.
+server {
+    listen ${NGINX_PORT};
+    add_header X-App-Mode ${APP_MODE} always;
+
+    location / {
+        root  /usr/share/nginx/html;
+        index index.html;
+    }
+
+    location = /mode {
+        default_type text/plain;
+        return 200 "mode=${APP_MODE} port=${NGINX_PORT}\n";
+    }
+}
