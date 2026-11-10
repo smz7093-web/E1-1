@@ -330,7 +330,7 @@ git push -u origin main
 | Docker Compose 멀티 컨테이너 + 컨테이너 간 통신 | 완료 | [compose/multi/compose.yaml](compose/multi/compose.yaml), [logs/compose_multi.txt](logs/compose_multi.txt) |
 | Compose 운영 명령어 (`up`, `down`, `ps`, `logs`) | 완료 | 위 두 로그 |
 | 환경 변수로 포트/모드 변경 | 완료 | [compose/multi/.env](compose/multi/.env), [nginx 템플릿](compose/multi/nginx/default.conf.template) |
-| GitHub SSH 키 설정 | 인증 확인 완료 | 아래 [GitHub SSH 키](#github-ssh-키) |
+| GitHub SSH 키 설정 | 완료 (SSH 인증 + SSH 푸시) | 아래 [GitHub SSH 키](#github-ssh-키) |
 
 ```text
 compose/
@@ -452,7 +452,19 @@ $ ssh -T git@github.com
 Hi smz7093-web! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-- 결과: 등록한 ED25519 키로 GitHub 계정 `smz7093-web` 인증 성공(셸 접근을 제공하지 않아 종료 코드 1이 나오는 것은 정상)
+원격 주소를 HTTPS에서 SSH로 바꾸고 실제로 푸시했습니다.
+
+```text
+$ git remote set-url origin git@github.com:smz7093-web/E1-1.git
+$ git remote -v
+origin	git@github.com:smz7093-web/E1-1.git (fetch)
+origin	git@github.com:smz7093-web/E1-1.git (push)
+$ git push origin main
+To github.com:smz7093-web/E1-1.git
+   8035cc5..4282b9b  main -> main
+```
+
+- 결과: 등록한 ED25519 키로 GitHub 계정 `smz7093-web` 인증 성공(셸 접근을 제공하지 않아 종료 코드 1이 나오는 것은 정상). 토큰이나 비밀번호 입력 없이 SSH로 푸시 완료
 - HTTPS와 SSH 비교: HTTPS는 계정과 토큰(Windows에서는 `credential.helper=manager`가 저장)으로 인증합니다. SSH는 내 PC의 개인키와 GitHub에 등록한 공개키 쌍으로 인증하므로 비밀값이 네트워크로 전송되지 않습니다.
 - 보안 습관: 개인키(`id_ed25519`)는 공유하거나 커밋하지 않고 공개키만 등록합니다. 위 지문(fingerprint)은 공개키 식별값이라 공개해도 안전합니다. PC를 잃어버리면 GitHub에서 해당 키를 바로 삭제합니다.
 
